@@ -1,0 +1,23 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Docker / data
+pgdata/
+
+# Editors / OS
+.vscode/
+.DS_Store
+
+# Large / generated artifacts
+*.pth
+*.bin
+*.safetensors

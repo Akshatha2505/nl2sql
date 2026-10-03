@@ -1,0 +1,4 @@
+Proximity — which table does the symbol sit next to?
+
+Symbol closest to CATEGORIES → describes CATEGORIES' side → │ = exactly one
+Symbol closest to PRODUCTS → describes PRODUCTS' side → ○┤ = zero or many

@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:16
+    container_name: nl2sql-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      # Persistent database volume
+      - pgdata:/var/lib/postgresql/data
+      # One-time init scripts (run only when volume is empty)
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  nl2sql:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: nl2sql-api
+    ports:
+      - "${API_PORT}:8000"
+    env_file:
+      - .env
+    environment:
+      # Override .env values that target localhost when running inside Docker.
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      OLLAMA_HOST: http://host.docker.internal:${OLLAMA_PORT:-11434}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

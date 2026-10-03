@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NL2SQL</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Ask your database a question</h1>
+
+    <form id="question-form">
+      <textarea
+        id="question-input"
+        name="question"
+        placeholder="e.g. How many customers in Germany placed the most orders?"
+        rows="4"
+        required
+      ></textarea>
+      <button type="submit" id="submit-btn">Submit</button>
+    </form>
+
+    <section id="result" class="result hidden">
+      <h2>SQL</h2>
+      <pre id="sql-output"></pre>
+
+      <h2>Rows</h2>
+      <div id="rows-output"></div>
+    </section>
+
+    <section id="error" class="error hidden"></section>
+  </main>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
